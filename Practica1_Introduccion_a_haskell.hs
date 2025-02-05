@@ -36,3 +36,20 @@ instance Ord Shape where
 
 
 -- 4.2. Listas y Funciones
+
+-- Funcion que verifica si una cadena es un palindromo o no
+isPal :: String -> Bool
+isPal xs = xs == reverse xs
+
+-- Funcion que recursivamente implementa una lista de lista y regresa la concatenación de todas las listas contenidas
+concat' :: [[a]] -> [a]
+concat'[] = []
+concat' (x:xs) = x ++ concat' xs
+
+-- 4.3. Árboles
+
+-- Se define le tipo de dato para arboles OneTwoTree para representar algun arbol con uno o dos hijos
+data OneTwoTree arbol = Void
+                  | Node arbol (OneTwoTree arbol)
+                  | Branch arbol (OneTwoTree arbol) (OneTwoTree arbol)
+                  deriving (Show)
