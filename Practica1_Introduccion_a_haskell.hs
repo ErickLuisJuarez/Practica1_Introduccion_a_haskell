@@ -6,7 +6,7 @@
 
 -- 4.1. Tipos de datos Algebraicos
 
---Se define el tipo de dato Shape que representa las figuras geometricas
+-- 1 Se define el tipo de dato Shape que representa las figuras geometricas
 data Shape = Circle Float
            | Square Float
            | Rectangle Float Float
@@ -20,7 +20,9 @@ area (Circle xs) = pi * xs * xs
 area (Square xs) = xs * xs
 area (Rectangle xs ys) = xs * ys
 area (Triangle xs) = (sqrt 3/4) * xs * xs
-area (Trapeze xs ys zs) = ((xs + ys)* zs)/2
+area (Trapeze xs ys zs) = ((xs + ys) / 2) * h
+    where
+        h = sqrt (zs^2 - ((abs (xs - ys)) / 2)^2)
 
 --Funcion la cual calcula el perimetro de alguna figura geometrica
 perimeter :: Shape -> Float
@@ -33,6 +35,17 @@ perimeter (Trapeze xs ys zs) = xs + ys + 2 * zs
 --Se define la instancia de Ord para comparar figuras por su area
 instance Ord Shape where 
     compare xs ys = compare (area xs) (area ys)
+
+-- 2 Se deffine un tipo de dato Point para representar un punto en el plano cartesiano
+data Point = Point Float Float deriving (Show, Eq)
+
+-- Función la cual calcula la distancia entre dos puntos en el plano cartesiano
+distance :: Point -> Point -> Float
+distance (Point x1 y1) (Point x2 y2) = sqrt ((x2 - x1)^2 + (y2 - y1)^2)
+
+-- Función para calcular la distancia de un punto al origen 
+fromO :: Point -> Float
+fromO p = distance p (Point 0 0)
 
 -- 3 Haskellium
 data Haskellium = Haskellium {name :: String,
@@ -48,7 +61,7 @@ son father mother childName =
                 lastName1 = lastName1 father,
                 lastName2 = lastName2 mother,
                 location = location father,
-                houseShape = houseShape father,
+                houseShape = houseShape father
                }
 
 --Funcion que calcula las unidades necesarias para construir la casa de un Haskellium dado
