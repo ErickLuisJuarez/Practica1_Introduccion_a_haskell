@@ -86,7 +86,7 @@ timeToWork haskellium =
 
 -- 4.2. Listas y Funciones
 
--- Función que verifica si una palabra es un palíndromo usando reversaFr
+-- Función que verifica si una palabra es un palíndromo usando la funcion reversaFr
 isPal :: String -> Bool
 isPal s = s == reversaFr s
 
@@ -104,6 +104,7 @@ pascalN n = zipWith (+) ([0] ++ prev) (prev ++ [0])
 --Funcion auxiliar que agrega un elemento al final de una lista dada con cosas del mismo tipo
 agregarFinal :: a -> [a] -> [a]
 agregarFinal x xs = xs ++ [x]
+
 
 -- Funcion que regresa la lista con los mismos elementos pero en orden opuesto.
 reversaFr :: [a] -> [a]
