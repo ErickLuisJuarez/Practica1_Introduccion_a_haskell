@@ -37,15 +37,15 @@ instance Ord Shape where
     compare xs ys = compare (area xs) (area ys)
 
 -- 2 Se deffine un tipo de dato Point para representar un punto en el plano cartesiano
-data Point = Point Float Float deriving (Show, Eq)
+type Point = (Float, Float)
 
 -- Función la cual calcula la distancia entre dos puntos en el plano cartesiano
 distance :: Point -> Point -> Float
-distance (Point x1 y1) (Point x2 y2) = sqrt ((x2 - x1)^2 + (y2 - y1)^2)
+distance (x1, y1) (x2, y2) = sqrt ((x2 - x1)^2 + (y2 - y1)^2)
 
 -- Función para calcular la distancia de un punto al origen 
 fromO :: Point -> Float
-fromO p = distance p (Point 0 0)
+fromO p = distance p (0, 0)
 
 -- 3 Haskellium
 data Haskellium = Haskellium {name :: String,
@@ -74,10 +74,10 @@ houseCost haskellium =
 --Funcion que calucla el tiempo que le toma a un Haskellium llegar a su trabajo
 timeToWork :: Haskellium -> Float
 timeToWork haskellium = 
-    let distanceOrigin = distance (location haskellium) (Point 0 0)
+    let distanceOrigin = distance (location haskellium) (0, 0)  -- Usamos la tupla (0, 0)
     in if distanceOrigin < 300 
        then distanceOrigin / 30  -- Viaja en bicicleta
-       else distanceOrigin / 70  -- Viaja en moto
+       else distanceOrigin / 70 --Viaja en moto
 
 
 -- 4.2. Listas y Funciones
@@ -90,6 +90,16 @@ isPal xs = xs == reverse xs
 concat' :: [[a]] -> [a]
 concat'[] = []
 concat' (x:xs) = x ++ concat' xs
+
+-- Funcion que regresa la n-ésima fila del triángulo de Pascal
+pascalN :: Int -> [Int]
+pascalN 0 = [1]
+pascalN n = zipWith (+) ([0] ++ prev) (prev ++ [0])
+    where prev = pascalN (n - 1)
+
+-- Funcion que regresa la lista con los mismos elementos pero en orden opuesto.
+reversaFr :: [a] -> [a]
+reversaFr = foldr (\x acc -> acc ++ [x]) []
 
 -- 4.3. Árboles
 
