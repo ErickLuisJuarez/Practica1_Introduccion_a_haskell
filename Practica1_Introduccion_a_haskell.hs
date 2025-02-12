@@ -12,7 +12,7 @@ data Shape = Circle Float
            | Rectangle Float Float
            | Triangle Float
            | Trapeze Float Float Float
-           deriving (Show, Eq)
+           deriving Show
 
 --Funcion la cual calcula el area de las figuras geometricas
 area :: Shape -> Float
@@ -31,6 +31,10 @@ perimeter (Square xs) = 4 * xs
 perimeter (Rectangle xs ys) = 2 * (xs + ys)
 perimeter (Triangle xs) = 3 * xs
 perimeter (Trapeze xs ys zs) = xs + ys + 2 * zs
+
+-- Se define una instacia de Eq en el caso que dos figuras tengan la misma area
+instance Eq Shape where
+    xs == ys = area xs == area ys
 
 --Se define la instancia de Ord para comparar figuras por su area
 instance Ord Shape where 
@@ -82,9 +86,9 @@ timeToWork haskellium =
 
 -- 4.2. Listas y Funciones
 
--- Funcion que verifica si una cadena es un palindromo o no
+-- Función que verifica si una palabra es un palíndromo usando reversaFr
 isPal :: String -> Bool
-isPal xs = xs == reverse xs
+isPal s = s == reversaFr s
 
 -- Funcion que recursivamente implementa una lista de lista y regresa la concatenación de todas las listas contenidas
 concat' :: [[a]] -> [a]
@@ -97,16 +101,20 @@ pascalN 0 = [1]
 pascalN n = zipWith (+) ([0] ++ prev) (prev ++ [0])
     where prev = pascalN (n - 1)
 
+--Funcion auxiliar que agrega un elemento al final de una lista dada con cosas del mismo tipo
+agregarFinal :: a -> [a] -> [a]
+agregarFinal x xs = xs ++ [x]
+
 -- Funcion que regresa la lista con los mismos elementos pero en orden opuesto.
 reversaFr :: [a] -> [a]
-reversaFr = foldr (\x acc -> acc ++ [x]) []
+reversaFr = foldr (\x xs -> agregarFinal x xs) []
 
 -- 4.3. Árboles
 
 -- Se define le tipo de dato para arboles OneTwoTree para representar algun arbol con uno o dos hijos
-data OneTwoTree arbol = Void
-                  | Node arbol (OneTwoTree arbol)
-                  | Branch arbol (OneTwoTree arbol) (OneTwoTree arbol)
+data OneTwoTree a = Void
+                  | Node a (OneTwoTree a)
+                  | Branch a (OneTwoTree a) (OneTwoTree a)
                   deriving (Show)
 
 --Funcion que recursivamente calcula la suma de los elementos de un arbol
