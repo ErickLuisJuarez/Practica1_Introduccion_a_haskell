@@ -40,16 +40,16 @@ instance Eq Shape where
 instance Ord Shape where 
     compare xs ys = compare (area xs) (area ys)
 
--- 2 Se deffine un tipo de dato Point para representar un punto en el plano cartesiano
-type Point = (Float, Float)
+-- 2 Se define un tipo de dato Point para representar un punto en el plano cartesiano
+data Point = Point Float Float deriving (Show)
 
 -- Función la cual calcula la distancia entre dos puntos en el plano cartesiano
 distance :: Point -> Point -> Float
-distance (x1, y1) (x2, y2) = sqrt ((x2 - x1)^2 + (y2 - y1)^2)
+distance (Point x1 y1) (Point x2 y2) = sqrt ((x2 - x1)^2 + (y2 - y1)^2)
 
 -- Función para calcular la distancia de un punto al origen 
 fromO :: Point -> Float
-fromO p = distance p (0, 0)
+fromO p = distance p (Point 0 0)
 
 -- 3 Haskellium
 data Haskellium = Haskellium {name :: String,
@@ -63,7 +63,7 @@ son :: Haskellium -> Haskellium -> String -> Haskellium
 son father mother childName = 
     Haskellium { name = childName,
                 lastName1 = lastName1 father,
-                lastName2 = lastName2 mother,
+                lastName2 = lastName1 mother,
                 location = location father,
                 houseShape = houseShape father
                }
@@ -78,7 +78,7 @@ houseCost haskellium =
 --Funcion que calucla el tiempo que le toma a un Haskellium llegar a su trabajo
 timeToWork :: Haskellium -> Float
 timeToWork haskellium = 
-    let distanceOrigin = distance (location haskellium) (0, 0)  -- Usamos la tupla (0, 0)
+    let distanceOrigin = fromO (location haskellium) -- Distancia al origen
     in if distanceOrigin < 300 
        then distanceOrigin / 30  -- Viaja en bicicleta
        else distanceOrigin / 70 --Viaja en moto
